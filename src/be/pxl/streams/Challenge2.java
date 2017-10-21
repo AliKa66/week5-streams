@@ -14,13 +14,10 @@ public class Challenge2 {
 		Random rand = new Random();
 		
 		ArrayList<Integer> numbers = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			numbers.add(rand.nextInt(31));
-		}
 		
-		OptionalInt maxNumber = numbers.stream().filter(n -> (n % 3 == 0)).mapToInt(Integer::intValue).max();
+		OptionalInt maxNumber = rand.ints(10, 0, 31).peek(n -> System.out.println("Random numbers: " + n)).filter(n -> (n % 3 == 0)).peek(n -> System.out.println("Filtered numbers: " + n)).max();
 		if (maxNumber.isPresent()) {
-			System.out.println(maxNumber.getAsInt());
+			System.out.println("Max filtered number: " + maxNumber.getAsInt());
 		}
 		
 	}
