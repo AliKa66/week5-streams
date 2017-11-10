@@ -9,7 +9,7 @@ public class Challenge1 {
 		// print alle tombolanummers die starten met D (of d) gesorteerd, steeds met de eerste letter in uppercase
 		// Gewenste output: D42 D50 D53 
 		System.out.println(
-		tombolaNummers.stream().filter(s -> s .toLowerCase().startsWith("d")).sorted().reduce("", (acc, el) -> acc + el.toUpperCase() + " "));
+		tombolaNummers.stream().map(String::toUpperCase).filter(s -> s.startsWith("D")).sorted().reduce("", (acc, el) -> acc + el.toUpperCase() + " "));
 		
 
 	}

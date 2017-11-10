@@ -18,7 +18,7 @@ public class Challenge4 {
 		);
 		// 1. Geef de gemiddelde leeftijd van alle personen
 		// Verwachte output:  Gemiddelde leeftijd: 25.6
-		OptionalDouble gemiddeld = personen.stream().mapToDouble(p -> p.getAge()).average();
+		OptionalDouble gemiddeld = personen.stream().mapToInt(Person::getAge).average();
 		if (gemiddeld.isPresent()) {
 			System.out.println(gemiddeld.getAsDouble());
 		}
@@ -35,7 +35,7 @@ public class Challenge4 {
 		
 		// 4. Geef de gemiddelde leeftijd van alle mannen
 		// Gemiddelde leeftijd mannen: 26.0
-		OptionalDouble gemiddeldLeeftijdMannen = personen.stream().filter(p -> (p.getGender() == Person.Gender.MALE)).mapToDouble(p -> p.getAge()).average();
+		OptionalDouble gemiddeldLeeftijdMannen = personen.stream().filter(p -> (p.getGender() == Person.Gender.MALE)).mapToInt(Person::getAge).average();
 		if (gemiddeldLeeftijdMannen.isPresent()) {
 			System.out.println(gemiddeldLeeftijdMannen.getAsDouble());
 		}
@@ -43,10 +43,12 @@ public class Challenge4 {
 		// 5. Maak een nieuwe persoon met als naam de eerste letter van iedere persoon in de lijst
 		// en als leeftijd de som van alle leeftijden
 		// Maak gebruik van de methode .reduce()
-		Person nieuwPersoon = new Person(
-				personen.stream().map(s -> s.getName()).reduce("", (acc, el) -> acc + el.substring(0, 1)), 
-				personen.stream().mapToInt(p -> p.getAge()).sum(), 
-				Gender.MALE);
+		Person nieuwPersoon =
+				personen.stream().reduce(new Person("", 0, Gender.MALE), (p1, p2) -> {
+					p1.setAge(p1.getAge() + p2.getAge());
+					p1.setName(p1.getName() + p2.getName().substring(0,1));
+					return p1;
+				});
 		System.out.println(nieuwPersoon.getName() + " " + nieuwPersoon.getAge() + " " + nieuwPersoon.getGender());
 	}
 }
